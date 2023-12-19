@@ -38,21 +38,27 @@ export default function NewApplication({ userId }: { userId: string }) {
               <ModalBody>
                 <form action={addApplication}>
                   <Input
+                    isRequired
                     type="text"
                     name="company"
                     label="Company"
                     variant="bordered"
-                    required
                     className="mt-3"
                   />
                   <Input
+                    isRequired
                     type="text"
                     name="position"
                     label="Position"
                     variant="bordered"
                     className="mt-3"
                   />
-                  <Select label="Status" className="mt-3" variant="bordered">
+                  <Select
+                    label="Status"
+                    className="mt-3"
+                    variant="bordered"
+                    isRequired
+                  >
                     {statusOptions.map(({ label, value }) => (
                       <SelectItem key={value} value={value}>
                         {label}
@@ -73,6 +79,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     className="mt-3"
                   />
                   <Input
+                    isRequired
                     type="date"
                     name="date"
                     label="Date for status"
