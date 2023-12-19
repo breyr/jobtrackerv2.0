@@ -41,6 +41,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     type="text"
                     name="company"
                     label="Company"
+                    variant="bordered"
                     required
                     className="mt-3"
                   />
@@ -48,20 +49,27 @@ export default function NewApplication({ userId }: { userId: string }) {
                     type="text"
                     name="position"
                     label="Position"
+                    variant="bordered"
                     className="mt-3"
                   />
-                  <Select label="Status" className="mt-3">
+                  <Select label="Status" className="mt-3" variant="bordered">
                     {statusOptions.map(({ label, value }) => (
                       <SelectItem key={value} value={value}>
                         {label}
                       </SelectItem>
                     ))}
                   </Select>
-                  <Textarea label="Notes" name="notes" className="mt-3" />
+                  <Textarea
+                    label="Notes"
+                    name="notes"
+                    className="mt-3"
+                    variant="bordered"
+                  />
                   <Input
                     type="text"
                     name="postingLink"
                     label="Posting Link"
+                    variant="bordered"
                     className="mt-3"
                   />
                   <Input
@@ -69,6 +77,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     name="date"
                     label="Date for status"
                     placeholder="MM/DD/YYYY"
+                    variant="bordered"
                     className="mt-3"
                   />
                   <input type="hidden" name="userId" value={userId} />
