@@ -16,9 +16,6 @@ import React, { useState } from "react";
 import { FaFilter } from "react-icons/fa";
 
 export default function FilterModal({ query }: { query: string }) {
-  const user = useUser();
-  const userId = user.user!.id; // shouldn't be null because we are signed in
-
   const [positionSort, setPositionSort] = useState("");
   const [companySort, setCompanySort] = useState("");
   const [statusSort, setStatusSort] = useState("");
@@ -44,6 +41,10 @@ export default function FilterModal({ query }: { query: string }) {
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const user = useUser();
+  if (!user.user) return null;
+  const userId = user.user.id;
 
   return (
     <>
