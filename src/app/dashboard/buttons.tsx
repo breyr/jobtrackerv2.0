@@ -11,7 +11,7 @@ export default function ButtonRow({
   query: string;
 }) {
   return (
-    <div className="flex flex-row gap-4 w-11/12 justify-between py-4 mx-auto pl-6 ">
+    <div className="flex flex-row gap-4 w-11/12 justify-between py-4 mx-auto pl-6 items-center">
       <div>
         <NewApplication userId={userId} />
       </div>
