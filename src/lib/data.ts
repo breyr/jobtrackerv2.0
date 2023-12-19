@@ -1,5 +1,7 @@
-import { getXataClient } from "@/xata";
-import { unstable_noStore as noStore } from 'next/cache';
+"use server"
+
+import { Applications, getXataClient } from "@/xata";
+import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 
 // import xata client
 const xataClient = getXataClient();
@@ -38,6 +40,33 @@ export async function getTableData(userId: string) {
 }
 
 // create function to delete an application
-export async function deleteApplication(applicationId: string) {
-    await xataClient.db.applications.delete(applicationId);
+export async function deleteApplication(formData: FormData) {
+    const id = formData.get('id')?.toString();
+    if (!id) return; // if no id, then return - this should never happen
+    await xataClient.db.applications.delete(id);
+    revalidatePath('/');
+}
+
+// create function to add an application
+export async function addApplication(formData: FormData) {
+    const company = formData.get('company')?.toString();
+    const position = formData.get('position')?.toString();
+    const status = formData.get('status')?.toString();
+    const notes = formData.get('notes')?.toString();
+    const userId = formData.get('userId')?.toString();
+    const postingLink = formData.get('postingLink')?.toString();
+    const dateStr = formData.get('date')?.toString();
+    const date = dateStr ? new Date(dateStr) : new Date();
+    // if (!company || !position || !status || !userId || !date) return; // if any of these are missing, then return - this should never happen
+    const newApplication = {
+        position,
+        userId,
+        company,
+        postingLink,
+        status,
+        notes,
+        lastUpdated: date
+    }
+    await xataClient.db.applications.create(newApplication);
+    revalidatePath('/');
 }

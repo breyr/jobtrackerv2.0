@@ -7,7 +7,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Jobtrackerv2",
@@ -28,7 +28,9 @@ export default function RootLayout({
       <html lang="en" className="dark">
         <body>
           <Providers>
-            <main className={`flex flex-col min-h-screen ${inter} antialiased`}>
+            <main
+              className={`flex flex-col min-h-screen ${inter.className} antialiased`}
+            >
               <Nav />
               {children}
               <Footer />

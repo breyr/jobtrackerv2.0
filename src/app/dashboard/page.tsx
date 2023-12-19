@@ -20,7 +20,7 @@ export default function page() {
       <Suspense fallback={<CardsSkeleton />}>
         <CardWrapper />
       </Suspense>
-      <ButtonRow />
+      <ButtonRow userId={userId} />
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>

@@ -18,7 +18,7 @@ export default async function CardWrapper() {
   } = await getCardData(userId);
   return (
     <section className="flex flex-row justify-center gap-4 w-100 p-4">
-      <StatCards title="Total Applications" stat={totalApplications} />
+      <StatCards title="Applications" stat={totalApplications} />
       <StatCards title="Applied" stat={totalApplied} />
       <StatCards title="Interviewing" stat={totalInterviews} />
       <StatCards title="Offers" stat={totalOffers} />
@@ -31,12 +31,7 @@ export function StatCards({
   title,
   stat,
 }: {
-  title:
-    | "Total Applications"
-    | "Applied"
-    | "Interviewing"
-    | "Offers"
-    | "Rejections";
+  title: "Applications" | "Applied" | "Interviewing" | "Offers" | "Rejections";
   stat: number;
 }) {
   return (

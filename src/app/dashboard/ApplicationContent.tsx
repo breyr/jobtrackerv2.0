@@ -7,16 +7,17 @@ export default function ApplicationContent({
 }) {
   return (
     <>
-      <table className="w-5/6 mx-auto mt-3">
+      <table className="mt-3 w-11/12 mx-auto">
         <thead>
           <tr>
-            <th></th>
             <th>Position</th>
             <th>Company</th>
             <th>Status</th>
             <th>Notes</th>
             <th>Posting URL</th>
             <th>Last Updated</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>{children}</tbody>
