@@ -27,7 +27,7 @@ export default function Search() {
       placeholder="Search by company, position, notes, or status"
       startContent={<FaSearch />}
       size="sm"
-      className="w-2/5"
+      className="w-4/5"
       onChange={(e) => handleSearch(e.target.value)}
       defaultValue={searchParams.get("query")?.toString()}
     />

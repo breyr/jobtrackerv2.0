@@ -34,8 +34,10 @@ export async function getCardData(userId: string) {
 }
 
 // create function to get data for the table
-export async function getTableData(userId: string, query:string) {
+export async function getTableData(userId: string, query:string, formData?:FormData) {
     noStore(); // disable caching for this function
+    // if we have form data then we are sorting the rows
+    let sort = {};
     const { applications } = xataClient.db;
     const records = await applications
         .any(

@@ -27,7 +27,7 @@ export default function page({
       <Suspense fallback={<CardsSkeleton />}>
         <CardWrapper />
       </Suspense>
-      <ButtonRow userId={userId} />
+      <ButtonRow userId={userId} query={query} />
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>
