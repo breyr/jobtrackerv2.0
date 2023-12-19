@@ -18,7 +18,6 @@ export default function ApplicationContent({
             <th>Posting URL</th>
             <th>Last Updated</th>
             <th></th>
-            <th></th>
           </tr>
         </thead>
         <tbody>{children}</tbody>

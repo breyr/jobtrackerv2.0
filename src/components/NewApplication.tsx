@@ -43,12 +43,12 @@ export default function NewApplication({ userId }: { userId: string }) {
               </ModalHeader>
               <ModalBody>
                 <form
-                  action={addApplication}
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (e.currentTarget.checkValidity()) {
+                      const formData = new FormData(e.currentTarget);
+                      addApplication(formData);
                       onClose();
-                      // Submit the form
                     }
                   }}
                 >

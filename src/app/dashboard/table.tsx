@@ -11,9 +11,10 @@ export default async function TableWrapper() {
   }
 
   const records = await getTableData(userId);
+
   return (
     <>
-      {records ? (
+      {records.length > 0 ? (
         records.map((record) => {
           return (
             <Row
@@ -30,7 +31,7 @@ export default async function TableWrapper() {
         })
       ) : (
         <tr>
-          <td colSpan={8} className="text-center">
+          <td colSpan={8} className="text-center text-zinc-700">
             No Applications
           </td>
         </tr>

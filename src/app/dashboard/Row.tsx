@@ -2,7 +2,7 @@
 
 import { deleteApplication } from "@/lib/data";
 import { Button } from "@nextui-org/react";
-import { FaLink } from "react-icons/fa";
+import { FaLink, FaTrash } from "react-icons/fa";
 
 export function Row({
   recordId,
@@ -45,7 +45,7 @@ export function Row({
         <form action={deleteApplication}>
           <input type="hidden" name="id" value={recordId} />
           <Button variant="flat" color="danger" type="submit" size="sm">
-            delete
+            <FaTrash />
           </Button>
         </form>
       </td>

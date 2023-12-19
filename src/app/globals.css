@@ -28,9 +28,9 @@ body {
 }
 
 th {
-  text-align: left;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+  text-align: left;
 }
 
 td {
@@ -39,7 +39,6 @@ td {
   border-top: 1px solid #18181b;
 }
 
-td:first-child,
-th:first-child {
+td:first-child, th:first-child{
   padding-left: 1.7rem;
 }
