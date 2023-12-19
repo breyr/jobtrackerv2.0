@@ -38,3 +38,7 @@ td {
   border-top: 1px solid #18181b;
   text-align: center;
 }
+
+th, td {
+  width: calc(100% / 7);
+}

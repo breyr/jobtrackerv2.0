@@ -1,6 +1,7 @@
 "use server"
 
-import { Applications, getXataClient } from "@/xata";
+import { getXataClient } from "@/xata";
+import { contains } from "@xata.io/client";
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 
 // import xata client
@@ -33,10 +34,19 @@ export async function getCardData(userId: string) {
 }
 
 // create function to get data for the table
-export async function getTableData(userId: string) {
+export async function getTableData(userId: string, query:string) {
     noStore(); // disable caching for this function
-    const applications = await xataClient.db.applications.filter({userId: userId}).getMany();
-    return applications;
+    const { applications } = xataClient.db;
+    const records = await applications
+        .any(
+            applications.filter({company: contains(query)}),
+            applications.filter({position: contains(query)}),
+            applications.filter({status: contains(query)}),
+            applications.filter({notes: contains(query)})
+        )
+        .filter({userId: userId})
+        .getMany();
+    return records;
 }
 
 // create function to delete an application

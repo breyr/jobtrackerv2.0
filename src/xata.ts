@@ -10,7 +10,6 @@ const tables = [
   {
     name: "applications",
     columns: [
-      { name: "position", type: "string" },
       { name: "userId", type: "string", notNull: true, defaultValue: "null" },
       { name: "company", type: "string", notNull: true, defaultValue: "null" },
       { name: "postingLink", type: "string" },
@@ -27,6 +26,7 @@ const tables = [
         notNull: true,
         defaultValue: "now",
       },
+      { name: "position", type: "string", notNull: true, defaultValue: "null" },
     ],
   },
 ] as const;

@@ -8,8 +8,15 @@ import ButtonRow from "./buttons";
 import CardWrapper from "./cards";
 import TableWrapper from "./table";
 
-export default function page() {
+export default function page({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+  };
+}) {
   const { userId } = auth();
+  const query = searchParams?.query || "";
 
   if (!userId) {
     redirect("/");
@@ -24,7 +31,7 @@ export default function page() {
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>
-          <TableWrapper />
+          <TableWrapper query={query} />
         </Suspense>
       </ApplicationsContent>
     </section>
