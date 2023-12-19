@@ -38,6 +38,7 @@ td {
   border-top: 1px solid #18181b;
 }
 
-td:first-child , th:first-child {
+td:first-child,
+th:first-child {
   padding-left: 1.7rem;
 }

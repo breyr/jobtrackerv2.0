@@ -36,7 +36,17 @@ export function StatCards({
 }) {
   return (
     <Card className="w-[200px] space-y-1 p-4 text-center" radius="lg">
-      <h1 className="text-4xl font-bold">{stat}</h1>
+      <h1
+        className={`text-4xl font-bold ${
+          title === "Offers" && stat > 0
+            ? "text-green-400"
+            : title === "Rejections" && stat > 0
+            ? "text-red-400"
+            : ""
+        }`}
+      >
+        {stat}
+      </h1>
       <h2 className="text-xl">{title}</h2>
     </Card>
   );

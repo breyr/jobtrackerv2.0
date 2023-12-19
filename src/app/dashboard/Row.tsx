@@ -30,7 +30,7 @@ export function Row({
       <td>{position}</td>
       <td>{company}</td>
       <td>{status}</td>
-      <td>{notes}</td>
+      <td>{notes ? notes : <p className="text-zinc-700">none</p>}</td>
       <td>
         {postingLink ? (
           <a href={postingLink} target="_blank" className="hover:text-blue-500">
