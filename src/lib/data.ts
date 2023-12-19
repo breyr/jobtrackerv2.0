@@ -1,7 +1,7 @@
 "use server"
 
 import { getXataClient } from "@/xata";
-import { contains } from "@xata.io/client";
+import { contains, iContains } from "@xata.io/client";
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 
 // import xata client
@@ -41,10 +41,10 @@ export async function getTableData(userId: string, query:string, formData?:FormD
     const { applications } = xataClient.db;
     const records = await applications
         .any(
-            applications.filter({company: contains(query)}),
-            applications.filter({position: contains(query)}),
-            applications.filter({status: contains(query)}),
-            applications.filter({notes: contains(query)})
+            applications.filter({company: iContains(query)}),
+            applications.filter({position: iContains(query)}),
+            applications.filter({status: iContains(query)}),
+            applications.filter({notes: iContains(query)})
         )
         .filter({userId: userId})
         .getMany();
