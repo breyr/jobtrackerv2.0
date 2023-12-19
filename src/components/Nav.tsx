@@ -54,7 +54,7 @@ export default function Nav() {
         {isLoaded && user && (
           <>
             <p className="mr-3">
-              {user.primaryEmailAddress?.emailAddress.split("@")[0]}
+              {user.primaryEmailAddress?.emailAddress.split("@")[0] || ""}
             </p>
             <UserButton afterSignOutUrl="/sign-in" />
           </>
