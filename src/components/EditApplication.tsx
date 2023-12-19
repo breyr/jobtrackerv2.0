@@ -1,4 +1,4 @@
-import { addApplication } from "@/lib/data";
+import { updateApplication } from "@/lib/data";
 import {
   Button,
   Input,
@@ -13,8 +13,30 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React, { useState } from "react";
+import { FaPen, FaSave } from "react-icons/fa";
 
-export default function NewApplication({ userId }: { userId: string }) {
+export default function EditApplication({
+  recordId,
+  company,
+  position,
+  status,
+  postingLink,
+  notes,
+}: {
+  recordId: string;
+  company: string;
+  position: string;
+  status: string;
+  notes: string | null | undefined;
+  postingLink: string | null | undefined;
+}) {
+  // format date so that the default date for updating an application is the current day
+  const today = new Date(); // new date as today will be the latest updated
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
+  const day = String(today.getDate()).padStart(2, "0");
+  const formattedDate = `${year}-${month}-${day}`;
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const statusOptions = [
     { label: "Applied", value: "applied" },
@@ -22,7 +44,7 @@ export default function NewApplication({ userId }: { userId: string }) {
     { label: "Offer", value: "offer" },
     { label: "Rejected", value: "rejected" },
   ];
-  const [selectItem, setSelectItem] = useState("");
+  const [selectItem, setSelectItem] = useState(status);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectItem(e.target.value);
@@ -30,15 +52,21 @@ export default function NewApplication({ userId }: { userId: string }) {
 
   return (
     <>
-      <Button onPress={onOpen} variant="bordered" color="secondary">
-        + application
+      <Button
+        isIconOnly
+        onPress={onOpen}
+        variant="bordered"
+        color="primary"
+        size="sm"
+      >
+        <FaPen />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                New Application
+                Edit Application
               </ModalHeader>
               <ModalBody>
                 <form
@@ -46,7 +74,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     e.preventDefault();
                     if (e.currentTarget.checkValidity()) {
                       const formData = new FormData(e.currentTarget);
-                      addApplication(formData);
+                      updateApplication(formData);
                       onClose();
                     }
                   }}
@@ -58,6 +86,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     label="Company"
                     variant="bordered"
                     className="mt-3"
+                    value={company}
                   />
                   <Input
                     isRequired
@@ -66,6 +95,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     label="Position"
                     variant="bordered"
                     className="mt-3"
+                    value={position}
                   />
                   <Select
                     label="Status"
@@ -76,6 +106,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     onChange={handleSelectChange}
                     value={selectItem}
                     items={statusOptions}
+                    defaultSelectedKeys={[status]}
                   >
                     {(option) => (
                       <SelectItem key={option.value}>{option.label}</SelectItem>
@@ -86,6 +117,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     name="notes"
                     className="mt-3"
                     variant="bordered"
+                    value={notes || ""}
                   />
                   <Input
                     type="text"
@@ -93,24 +125,26 @@ export default function NewApplication({ userId }: { userId: string }) {
                     label="Posting Link"
                     variant="bordered"
                     className="mt-3"
+                    value={postingLink || ""}
                   />
                   <Input
-                    isRequired
                     type="date"
                     name="date"
-                    label="Date for status"
+                    label="Date for status change"
                     placeholder="MM/DD/YYYY"
+                    defaultValue={formattedDate}
                     variant="bordered"
                     className="mt-3"
                   />
-                  <input type="hidden" name="userId" value={userId} />
+                  <input type="hidden" name="id" value={recordId} />
                   <Button
                     color="success"
                     variant="bordered"
                     type="submit"
                     className="mt-5"
+                    startContent={<FaSave />}
                   >
-                    submit
+                    save
                   </Button>
                   <Button
                     color="danger"

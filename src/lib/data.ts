@@ -56,8 +56,8 @@ export async function addApplication(formData: FormData) {
     const userId = formData.get('userId')?.toString();
     const postingLink = formData.get('postingLink')?.toString();
     const dateStr = formData.get('date')?.toString();
-    const date = dateStr ? new Date(dateStr) : new Date();
-    // if (!company || !position || !status || !userId || !date) return; // if any of these are missing, then return - this should never happen
+    const date = dateStr ? new Date(dateStr) : "";
+    if (!company || !position || !status || !userId || !date) return; // if any of these are missing, then return - this should never happen
     const newApplication = {
         position,
         userId,
@@ -68,5 +68,28 @@ export async function addApplication(formData: FormData) {
         lastUpdated: date
     }
     await xataClient.db.applications.create(newApplication);
+    revalidatePath('/');
+}
+
+// create function to update an application
+export async function updateApplication(formData: FormData) {
+    const id = formData.get('id')?.toString();
+    const company = formData.get('company')?.toString();
+    const position = formData.get('position')?.toString();
+    const status = formData.get('status')?.toString();
+    const notes = formData.get('notes')?.toString();
+    const postingLink = formData.get('postingLink')?.toString();
+    const dateStr = formData.get('date')?.toString();
+    const date = dateStr ? new Date(dateStr) : new Date();
+    if (!id || !company || !position || !status || !date) return; // if any of these are missing, then return - this should never happen
+    const updatedApplication = {
+        position,
+        company,
+        postingLink,
+        status,
+        notes,
+        lastUpdated: date
+    }
+    await xataClient.db.applications.update(id, updatedApplication);
     revalidatePath('/');
 }

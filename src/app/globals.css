@@ -30,15 +30,11 @@ body {
 th {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  text-align: left;
 }
 
 td {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
   border-top: 1px solid #18181b;
-}
-
-td:first-child, th:first-child{
-  padding-left: 1.7rem;
+  text-align: center;
 }
