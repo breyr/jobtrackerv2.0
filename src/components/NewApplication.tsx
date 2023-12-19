@@ -12,7 +12,7 @@ import {
   Textarea,
   useDisclosure,
 } from "@nextui-org/react";
-import React from "react";
+import React, { useState } from "react";
 
 export default function NewApplication({ userId }: { userId: string }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -22,6 +22,12 @@ export default function NewApplication({ userId }: { userId: string }) {
     { label: "Offer", value: "offer" },
     { label: "Rejected", value: "rejected" },
   ];
+  const [selectItem, setSelectItem] = useState("");
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
+    setSelectItem(e.target.value);
+  };
 
   return (
     <>
@@ -36,7 +42,16 @@ export default function NewApplication({ userId }: { userId: string }) {
                 New Application
               </ModalHeader>
               <ModalBody>
-                <form action={addApplication}>
+                <form
+                  action={addApplication}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (e.currentTarget.checkValidity()) {
+                      onClose();
+                      // Submit the form
+                    }
+                  }}
+                >
                   <Input
                     isRequired
                     type="text"
@@ -57,7 +72,10 @@ export default function NewApplication({ userId }: { userId: string }) {
                     label="Status"
                     className="mt-3"
                     variant="bordered"
+                    name="status"
                     isRequired
+                    onChange={handleSelectChange}
+                    value={selectItem}
                   >
                     {statusOptions.map(({ label, value }) => (
                       <SelectItem key={value} value={value}>
@@ -93,17 +111,20 @@ export default function NewApplication({ userId }: { userId: string }) {
                     variant="bordered"
                     type="submit"
                     className="mt-5"
-                    onClick={onClose}
                   >
-                    Submit
+                    submit
+                  </Button>
+                  <Button
+                    color="danger"
+                    variant="flat"
+                    onPress={onClose}
+                    className="ml-3"
+                  >
+                    cancel
                   </Button>
                 </form>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="flat" onPress={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
+              <ModalFooter></ModalFooter>
             </>
           )}
         </ModalContent>

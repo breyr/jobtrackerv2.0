@@ -41,7 +41,7 @@ export function Row({
         )}
       </td>
       <td>{date.toLocaleDateString()}</td>
-      <td className="flex justify-center gap-2 w-15">
+      <td>
         <form action={deleteApplication}>
           <input type="hidden" name="id" value={recordId} />
           <Button variant="flat" color="danger" type="submit" size="sm">

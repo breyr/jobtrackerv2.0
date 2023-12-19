@@ -1,4 +1,5 @@
 "use client";
+import { ScrollShadow } from "@nextui-org/react";
 
 export default function ApplicationContent({
   children,
@@ -6,7 +7,7 @@ export default function ApplicationContent({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <ScrollShadow hideScrollBar className="h-[450px] overflow-auto">
       <table className="mt-3 w-11/12 mx-auto">
         <thead>
           <tr>
@@ -22,6 +23,6 @@ export default function ApplicationContent({
         </thead>
         <tbody>{children}</tbody>
       </table>
-    </>
+    </ScrollShadow>
   );
 }
