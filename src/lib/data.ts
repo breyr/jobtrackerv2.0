@@ -47,7 +47,25 @@ export async function getTableData(userId: string, query:string, sortColumns: ob
         .filter({userId: userId})
     for (let [column, order] of Object.entries(sortColumns)) {
         if (order === '') continue;
-        records = records.sort(column, order); // this is fine, shouldn't error out
+        // doing this switch statement to bypass Argument of type 'string' is not assignable to parameter of type 
+        // 'SortColumns<ApplicationsRecord>' error for column param in sort()
+        switch (column) {
+            case 'company':
+                records = records.sort('company', order);
+                break;
+            case 'position':
+                records = records.sort('position', order);
+                break;
+            case 'status':
+                records = records.sort('status', order);
+                break;
+            case 'notes':
+                records = records.sort('notes', order);
+                break;
+            case 'lastUpdated':
+                records = records.sort('lastUpdated', order);
+                break;
+        }
     }
     const sortedRecords = await records.getMany();
     return sortedRecords;
