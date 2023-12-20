@@ -1,15 +1,17 @@
 "use client";
 
-import { Input } from "@nextui-org/react";
+import { Button, Input } from "@nextui-org/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { useDebouncedCallback } from "use-debounce";
 
 export default function Search() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  function handleSearch(term: string) {
+  const [isLoading, setIsLoading] = useState(false);
+  const handleSearch = useDebouncedCallback((term: string) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("query", term);
@@ -17,7 +19,8 @@ export default function Search() {
       params.delete("query");
     }
     replace(`${pathname}?${params.toString()}`);
-  }
+    setIsLoading(false);
+  }, 300);
 
   return (
     <Input
@@ -26,9 +29,23 @@ export default function Search() {
       variant="bordered"
       placeholder="Search by company, position, notes, or status"
       startContent={<FaSearch />}
+      endContent={
+        isLoading ? (
+          <Button
+            isLoading
+            variant="light"
+            disabled
+            isIconOnly
+            size="sm"
+          ></Button>
+        ) : undefined
+      }
       size="sm"
       className="w-4/5"
-      onChange={(e) => handleSearch(e.target.value)}
+      onChange={(e) => {
+        setIsLoading(true);
+        handleSearch(e.target.value);
+      }}
       defaultValue={searchParams.get("query")?.toString()}
     />
   );
