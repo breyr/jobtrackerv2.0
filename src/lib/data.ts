@@ -34,12 +34,10 @@ export async function getCardData(userId: string) {
 }
 
 // create function to get data for the table
-export async function getTableData(userId: string, query:string, formData?:FormData) {
+export async function getTableData(userId: string, query:string, sortColumns: object) {
     noStore(); // disable caching for this function
-    // if we have form data then we are sorting the rows
-    let sort = {};
     const { applications } = xataClient.db;
-    const records = await applications
+    let records =  applications
         .any(
             applications.filter({company: iContains(query)}),
             applications.filter({position: iContains(query)}),
@@ -47,8 +45,12 @@ export async function getTableData(userId: string, query:string, formData?:FormD
             applications.filter({notes: iContains(query)})
         )
         .filter({userId: userId})
-        .getMany();
-    return records;
+    for (let [column, order] of Object.entries(sortColumns)) {
+        if (order === '') continue;
+        records = records.sort(column, order); // this is fine, shouldn't error out
+    }
+    const sortedRecords = await records.getMany();
+    return sortedRecords;
 }
 
 // create function to delete an application

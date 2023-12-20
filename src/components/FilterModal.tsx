@@ -1,6 +1,4 @@
 "use client";
-import { getTableData } from "@/lib/data";
-import { useUser } from "@clerk/nextjs";
 import {
   Button,
   Modal,
@@ -12,39 +10,46 @@ import {
   RadioGroup,
   useDisclosure,
 } from "@nextui-org/react";
-import React, { useState } from "react";
+import { revalidatePath } from "next/cache";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa";
 
-export default function FilterModal({ query }: { query: string }) {
-  const [positionSort, setPositionSort] = useState("");
-  const [companySort, setCompanySort] = useState("");
-  const [statusSort, setStatusSort] = useState("");
-  const [dateSort, setDateSort] = useState("");
+export default function FilterModal() {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
   const handleRadioChange = (label: string, value: string) => {
+    const params = new URLSearchParams(searchParams);
     switch (label) {
       case "Position":
-        setPositionSort(value);
+        params.set("position", value);
         break;
       case "Company":
-        setCompanySort(value);
+        params.set("company", value);
         break;
       case "Status":
-        setStatusSort(value);
+        params.set("status", value);
         break;
       case "Date":
-        setDateSort(value);
+        params.set("lastUpdated", value);
         break;
       default:
         break;
     }
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const clearSorts = () => {
+    const params = new URLSearchParams(searchParams);
+    params.delete("position");
+    params.delete("company");
+    params.delete("status");
+    params.delete("lastUpdated");
+    replace(`${pathname}?${params.toString()}`);
   };
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const user = useUser();
-  if (!user.user) return null;
-  const userId = user.user.id;
 
   return (
     <>
@@ -59,90 +64,73 @@ export default function FilterModal({ query }: { query: string }) {
                 Sort Rows
               </ModalHeader>
               <ModalBody>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (e.currentTarget.checkValidity()) {
-                      const formData = new FormData(e.currentTarget);
-                      getTableData(userId, query, formData);
-                      onClose();
-                    }
-                  }}
-                >
-                  <div className="flex w-full items-center gap-2 mb-3">
-                    <p className="w-20">Position: </p>
-                    <RadioGroup
-                      orientation="horizontal"
-                      value={positionSort}
-                      onChange={(e) =>
-                        handleRadioChange("Position", e.target.value)
-                      }
-                    >
-                      <Radio value="position-asc">asc</Radio>
-                      <Radio value="position-desc">desc</Radio>
-                    </RadioGroup>
-                  </div>
-                  <div className="flex w-full items-center gap-2 mb-3">
-                    <p className="w-20">Company: </p>
-                    <RadioGroup
-                      orientation="horizontal"
-                      value={companySort}
-                      onChange={(e) =>
-                        handleRadioChange("Company", e.target.value)
-                      }
-                    >
-                      <Radio value="company-asc">asc</Radio>
-                      <Radio value="company-desc">desc</Radio>
-                    </RadioGroup>
-                  </div>
-                  <div className="flex w-full items-center gap-2 mb-3">
-                    <p className="w-20">Status: </p>
-                    <RadioGroup
-                      orientation="horizontal"
-                      value={statusSort}
-                      onChange={(e) =>
-                        handleRadioChange("Status", e.target.value)
-                      }
-                    >
-                      <Radio value="status-asc">asc</Radio>
-                      <Radio value="status-desc">desc</Radio>
-                    </RadioGroup>
-                  </div>
-                  <div className="flex w-full items-center gap-2 mb-3">
-                    <p className="w-20">Date: </p>
-                    <RadioGroup
-                      orientation="horizontal"
-                      value={dateSort}
-                      onChange={(e) =>
-                        handleRadioChange("Date", e.target.value)
-                      }
-                    >
-                      <Radio value="date-asc">asc</Radio>
-                      <Radio value="date-desc">desc</Radio>
-                    </RadioGroup>
-                  </div>
-                  <Button
-                    color="success"
-                    variant="bordered"
-                    type="submit"
-                    className="mt-5"
-                  >
-                    save
-                  </Button>
-                  <Button
-                    color="danger"
-                    variant="flat"
-                    className="ml-3"
-                    onClick={() => {
-                      setPositionSort("");
-                      setCompanySort("");
-                      setStatusSort("");
-                      setDateSort("");
+                <div className="flex mx-auto items-around gap-2 mb-3">
+                  <p className="w-20">Position</p>
+                  <RadioGroup
+                    orientation="horizontal"
+                    value={searchParams.get("position")?.toString() || ""} //! has to be or empty string because the checked radio button will not clear
+                    onChange={(e) => {
+                      handleRadioChange("Position", e.target.value);
                     }}
                   >
-                    clear
-                  </Button>
-                </form>
+                    <Radio value="asc" className="mr-2">
+                      asc
+                    </Radio>
+                    <Radio value="desc">desc</Radio>
+                  </RadioGroup>
+                </div>
+                <div className="flex mx-auto items-center gap-2 mb-3">
+                  <p className="w-20">Company</p>
+                  <RadioGroup
+                    orientation="horizontal"
+                    value={searchParams.get("company")?.toString() || ""}
+                    onChange={(e) =>
+                      handleRadioChange("Company", e.target.value)
+                    }
+                  >
+                    <Radio value="asc" className="mr-2">
+                      asc
+                    </Radio>
+                    <Radio value="desc">desc</Radio>
+                  </RadioGroup>
+                </div>
+                <div className="flex mx-auto items-center gap-2 mb-3">
+                  <p className="w-20">Status</p>
+                  <RadioGroup
+                    orientation="horizontal"
+                    value={searchParams.get("status")?.toString() || ""}
+                    onChange={(e) =>
+                      handleRadioChange("Status", e.target.value)
+                    }
+                  >
+                    <Radio value="asc" className="mr-2">
+                      asc
+                    </Radio>
+                    <Radio value="desc">desc</Radio>
+                  </RadioGroup>
+                </div>
+                <div className="flex mx-auto items-center gap-2 mb-3">
+                  <p className="w-20">Date</p>
+                  <RadioGroup
+                    orientation="horizontal"
+                    value={searchParams.get("lastUpdated")?.toString() || ""}
+                    onChange={(e) => handleRadioChange("Date", e.target.value)}
+                  >
+                    <Radio value="asc" className="mr-2">
+                      asc
+                    </Radio>
+                    <Radio value="desc">desc</Radio>
+                  </RadioGroup>
+                </div>
+                <Button
+                  color="danger"
+                  variant="flat"
+                  onClick={() => {
+                    clearSorts();
+                  }}
+                >
+                  clear
+                </Button>
               </ModalBody>
               <ModalFooter></ModalFooter>
             </>

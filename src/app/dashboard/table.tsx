@@ -3,14 +3,20 @@ import { auth } from "@clerk/nextjs";
 import React from "react";
 import { Row } from "./Row";
 
-export default async function TableWrapper({ query }: { query: string }) {
+export default async function TableWrapper({
+  query,
+  sortColumns,
+}: {
+  query: string;
+  sortColumns: object;
+}) {
   const { userId } = auth();
 
   if (!userId) {
     return null;
   }
 
-  const records = await getTableData(userId, query);
+  const records = await getTableData(userId, query, sortColumns);
 
   return (
     <>

@@ -13,10 +13,21 @@ export default function page({
 }: {
   searchParams?: {
     query?: string;
+    position?: string;
+    company?: string;
+    status?: string;
+    lastUpdated?: string;
   };
 }) {
   const { userId } = auth();
   const query = searchParams?.query || "";
+  // get list of columns to sort by
+  const sortColumns = {
+    position: searchParams?.position || "",
+    company: searchParams?.company || "",
+    status: searchParams?.status || "",
+    lastUpdated: searchParams?.lastUpdated || "",
+  };
 
   if (!userId) {
     redirect("/");
@@ -27,11 +38,11 @@ export default function page({
       <Suspense fallback={<CardsSkeleton />}>
         <CardWrapper />
       </Suspense>
-      <ButtonRow userId={userId} query={query} />
+      <ButtonRow userId={userId} />
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>
-          <TableWrapper query={query} />
+          <TableWrapper query={query} sortColumns={sortColumns} />
         </Suspense>
       </ApplicationsContent>
     </section>
