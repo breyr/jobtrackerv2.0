@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { FaCompass } from "react-icons/fa";
@@ -20,9 +20,13 @@ export default function Nav() {
         <div>
           {session ? (
             <div className="flex items-center">
-              <Button onClick={() => signOut()} variant="ghost">
+              <Link
+                onClick={() => signOut()}
+                href=""
+                className="hover:text-bright-turquoise-500"
+              >
                 Sign Out
-              </Button>
+              </Link>
             </div>
           ) : (
             <Link href="/signin" className="hover:text-bright-turquoise-500">
