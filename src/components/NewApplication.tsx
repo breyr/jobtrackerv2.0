@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React, { useState } from "react";
+import { FaPlus } from "react-icons/fa";
 
 export default function NewApplication({ userId }: { userId: string }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -30,8 +31,8 @@ export default function NewApplication({ userId }: { userId: string }) {
 
   return (
     <>
-      <Button onPress={onOpen} variant="bordered" color="secondary">
-        + application
+      <Button onPress={onOpen} variant="bordered" color="default">
+        <FaPlus /> application
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>

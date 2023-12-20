@@ -67,7 +67,7 @@ export default function EditApplication({
       <Button
         isIconOnly
         onPress={onOpen}
-        variant="bordered"
+        variant="flat"
         color="primary"
         size="sm"
       >

@@ -24,15 +24,31 @@ export function Row({
 }) {
   return (
     <tr key={recordId} id={recordId}>
-      <td>{position}</td>
       <td>{company}</td>
-      <td>{status}</td>
+      <td>{position}</td>
+      <td
+        className={`${
+          status === "offer"
+            ? "text-green-300"
+            : status === "rejected"
+            ? "text-red-300"
+            : ""
+        }`}
+      >
+        {status}
+      </td>
       <td>{notes ? notes : <p className="text-zinc-700">none</p>}</td>
       <td>
         {postingLink ? (
-          <a href={postingLink} target="_blank" className="hover:text-blue-500">
-            <FaLink />
-          </a>
+          <div className="flex justify-center">
+            <a
+              href={postingLink}
+              target="_blank"
+              className="hover:text-zinc-400 text-zinc-500"
+            >
+              <FaLink />
+            </a>
+          </div>
         ) : (
           <p className="text-zinc-700">none</p>
         )}

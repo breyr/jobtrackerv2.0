@@ -53,7 +53,7 @@ export default function FilterModal() {
 
   return (
     <>
-      <Button isIconOnly onPress={onOpen} variant="flat" color="secondary">
+      <Button isIconOnly onPress={onOpen} variant="flat" color="default">
         <FaFilter />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="w-80">
