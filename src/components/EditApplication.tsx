@@ -45,9 +45,21 @@ export default function EditApplication({
     { label: "Rejected", value: "rejected" },
   ];
   const [selectItem, setSelectItem] = useState(status);
+  const [inputCompany, setInputCompanyy] = useState(company);
+  const [inputPosition, setInputPosition] = useState(position);
+  const [inputNotes, setInputNotes] = useState(notes);
+  const [inputPostingLink, setInputPostingLink] = useState(postingLink);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectItem(e.target.value);
+  };
+
+  const resetInputsToRowVals = () => {
+    setInputCompanyy(company);
+    setSelectItem(status);
+    setInputPosition(position);
+    setInputNotes(notes);
+    setInputPostingLink(postingLink);
   };
 
   return (
@@ -86,7 +98,8 @@ export default function EditApplication({
                     label="Company"
                     variant="bordered"
                     className="mt-3"
-                    value={company}
+                    value={inputCompany}
+                    onChange={(e) => setInputCompanyy(e.target.value)}
                   />
                   <Input
                     isRequired
@@ -95,7 +108,8 @@ export default function EditApplication({
                     label="Position"
                     variant="bordered"
                     className="mt-3"
-                    value={position}
+                    value={inputPosition}
+                    onChange={(e) => setInputPosition(e.target.value)}
                   />
                   <Select
                     label="Status"
@@ -117,7 +131,8 @@ export default function EditApplication({
                     name="notes"
                     className="mt-3"
                     variant="bordered"
-                    value={notes || ""}
+                    value={inputNotes || ""}
+                    onChange={(e) => setInputNotes(e.target.value)}
                   />
                   <Input
                     type="text"
@@ -125,7 +140,8 @@ export default function EditApplication({
                     label="Posting Link"
                     variant="bordered"
                     className="mt-3"
-                    value={postingLink || ""}
+                    value={inputPostingLink || ""}
+                    onChange={(e) => setInputPostingLink(e.target.value)}
                   />
                   <Input
                     type="date"
@@ -149,7 +165,10 @@ export default function EditApplication({
                   <Button
                     color="danger"
                     variant="flat"
-                    onPress={onClose}
+                    onPress={() => {
+                      onClose();
+                      resetInputsToRowVals();
+                    }}
                     className="ml-3"
                   >
                     cancel
