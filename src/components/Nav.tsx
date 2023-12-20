@@ -2,6 +2,7 @@
 import { UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FaCompass } from "react-icons/fa";
 
 export default function Nav() {
   const { user, isLoaded } = useUser();
@@ -33,8 +34,11 @@ export default function Nav() {
     <header>
       <nav className="flex items-center justify-between p-6 lg:px-8 h-20 border border-t-0 border-r-0 border-l-0 border-b-zinc-900">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5 font-bold">
-            Jobtrackerv2
+          <Link
+            href="/"
+            className="-m-1.5 p-1.5 font-bold flex items-center gap-2"
+          >
+            <FaCompass className="text-xl" /> Jobtrackr
           </Link>
         </div>
         <div>

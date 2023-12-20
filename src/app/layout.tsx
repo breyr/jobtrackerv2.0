@@ -10,8 +10,9 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
-  title: "Jobtrackerv2",
-  description: "Simple job tracker app built with Next.js",
+  title: "Jobtrackr",
+  description:
+    "Simple job tracker app built with Next.js, powered by Xata, Vercel, and Cloudflare",
 };
 
 export default function RootLayout({
