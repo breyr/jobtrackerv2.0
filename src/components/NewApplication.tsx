@@ -15,7 +15,11 @@ import {
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 
-export default function NewApplication({ userId }: { userId: string }) {
+export default function NewApplication({
+  userEmail,
+}: {
+  userEmail: string | null | undefined;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const statusOptions = [
     { label: "Applied", value: "applied" },
@@ -104,7 +108,7 @@ export default function NewApplication({ userId }: { userId: string }) {
                     variant="bordered"
                     className="mt-3"
                   />
-                  <input type="hidden" name="userId" value={userId} />
+                  <input type="hidden" name="userId" value={userEmail ?? ""} />
                   <Button
                     color="success"
                     variant="bordered"

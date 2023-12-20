@@ -1,15 +1,26 @@
-"use server"
-
+"use server";
 import { getXataClient } from "@/xata";
-import { contains, iContains } from "@xata.io/client";
+import { iContains } from "@xata.io/client";
+import { getServerSession } from "next-auth";
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
 
 // import xata client
 const xataClient = getXataClient();
 
 // create functions to get data for each card
-export async function getCardData(userId: string) {
+export async function getCardData() {
     noStore(); // disable caching for this function
+    const session = await getServerSession();
+    const userId = session?.user?.email;
+    if (!userId) {
+        return {
+          totalApplications: 0,
+          totalApplied: 0,
+          totalInterviews: 0,
+          totalOffers: 0,
+          totalRejected: 0,
+        };
+      }
     const totalApplicationsPromise = xataClient.db.applications.filter({userId: userId}).getMany();
     const totalAppliedPromise = xataClient.db.applications.filter({userId: userId, status: "applied"}).getMany();
     const totalInterviewsPromise = xataClient.db.applications.filter({userId: userId, status: "interview"}).getMany();
@@ -18,24 +29,29 @@ export async function getCardData(userId: string) {
 
     const data = await Promise.all([totalApplicationsPromise, totalAppliedPromise, totalInterviewsPromise, totalOffersPromise, totalRejectedPromise]);
 
-    const totalApplications = Number(data[0].length ?? '0');
-    const totalApplied = Number(data[1].length ?? '0');
-    const totalInterviews = Number(data[2].length ?? '0');
-    const totalOffers = Number(data[3].length ?? '0');
-    const totalRejected = Number(data[4].length ?? '0');
+    const totalApplications = data[0].length ?? 0;
+    const totalApplied = data[1].length ?? 0;
+    const totalInterviews = data[2].length ?? 0;
+    const totalOffers = data[3].length ?? 0;
+    const totalRejected = data[4].length ?? 0;
 
-    return {
+    const cleanData = {
         totalApplications,
         totalApplied,
         totalInterviews,
         totalOffers,
         totalRejected
     }
+
+    return cleanData;
 }
 
 // create function to get data for the table
-export async function getTableData(userId: string, query:string, sortColumns: object) {
+export async function getTableData(query:string, sortColumns: object) {
     noStore(); // disable caching for this function
+    const session = await getServerSession();
+    const userId = session?.user?.email;
+    if (!userId) return; // if no userId, then return - this should never happen
     const { applications } = xataClient.db;
     let records =  applications
         .any(

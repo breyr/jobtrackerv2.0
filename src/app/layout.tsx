@@ -1,8 +1,8 @@
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
-import { ClerkProvider } from "@clerk/nextjs";
-import { neobrutalism } from "@clerk/themes";
+import SessionProvider from "@/components/SessionProvider";
 import type { Metadata } from "next";
+import { getServerSession } from "next-auth";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -15,25 +15,18 @@ export const metadata: Metadata = {
     "Simple job tracker app built with Next.js, powered by Xata, Vercel, and Cloudflare",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession();
+
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: neobrutalism,
-        variables: {
-          colorPrimary: "#1cafb0",
-          colorText: "#06292d",
-          colorInputBackground: "transparent",
-        },
-      }}
-    >
-      <html lang="en" className="dark">
-        <body>
-          <Providers>
+    <html lang="en" className="dark">
+      <body>
+        <Providers>
+          <SessionProvider session={session}>
             <main
               className={`flex flex-col min-h-screen ${inter.className} antialiased`}
             >
@@ -41,9 +34,9 @@ export default function RootLayout({
               {children}
               <Footer />
             </main>
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+          </SessionProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }

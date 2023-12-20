@@ -24,8 +24,8 @@ export function Row({
 }) {
   return (
     <tr key={recordId} id={recordId}>
-      <td>{company}</td>
       <td>{position}</td>
+      <td>{company}</td>
       <td
         className={`${
           status === "offer"

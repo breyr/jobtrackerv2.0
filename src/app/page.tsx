@@ -1,13 +1,11 @@
-import { auth } from "@clerk/nextjs";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-export default function Home() {
-  const { userId } = auth();
-
-  if (userId) {
-    redirect("/dashboard");
+export default async function Home() {
+  const session = await getServerSession();
+  if (session) {
+    return redirect("/dashboard");
   }
-
   return (
     <main className="flex-grow flex flex-col items-center justify-center p-24">
       <h1 className="text-6xl font-bold text-center">

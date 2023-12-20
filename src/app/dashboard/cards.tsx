@@ -1,21 +1,14 @@
 import { getCardData } from "@/lib/data";
-import { auth } from "@clerk/nextjs";
 import { Card } from "@nextui-org/react";
 
 export default async function CardWrapper() {
-  const { userId } = auth();
-
-  if (!userId) {
-    return;
-  }
-
   const {
     totalApplications,
     totalApplied,
     totalInterviews,
     totalOffers,
     totalRejected,
-  } = await getCardData(userId);
+  } = await getCardData();
   return (
     <section className="flex flex-row justify-center gap-4 w-100 p-4">
       <StatCards title="Applications" stat={totalApplications} />

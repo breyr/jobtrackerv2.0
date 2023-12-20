@@ -1,6 +1,6 @@
 import CardsSkeleton from "@/components/CardsSkeleton";
 import RowSkeleton from "@/components/RowSkeleton";
-import { auth } from "@clerk/nextjs";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import ApplicationsContent from "./ApplicationContent";
@@ -8,7 +8,7 @@ import ButtonRow from "./buttons";
 import CardWrapper from "./cards";
 import TableWrapper from "./table";
 
-export default function page({
+export default async function page({
   searchParams,
 }: {
   searchParams?: {
@@ -19,7 +19,11 @@ export default function page({
     lastUpdated?: string;
   };
 }) {
-  const { userId } = auth();
+  const session = await getServerSession();
+  if (!session || !session.user) {
+    redirect("/signin");
+  }
+  const userEmail = session?.user?.email;
   const query = searchParams?.query || "";
   // get list of columns to sort by
   const sortColumns = {
@@ -29,16 +33,12 @@ export default function page({
     lastUpdated: searchParams?.lastUpdated || "",
   };
 
-  if (!userId) {
-    redirect("/");
-  }
-
   return (
     <section className="flex-grow flex flex-col">
       <Suspense fallback={<CardsSkeleton />}>
         <CardWrapper />
       </Suspense>
-      <ButtonRow userId={userId} />
+      <ButtonRow userEmail={userEmail} />
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>
