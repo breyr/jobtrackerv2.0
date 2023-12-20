@@ -9,7 +9,7 @@ export default function Footer() {
         <a
           href="https://breyr.dev"
           target="_blank"
-          className="underline hover:text-indigo-500"
+          className="underline hover:text-bright-turquoise-500"
         >
           me
         </a>

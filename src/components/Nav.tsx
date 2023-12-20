@@ -13,7 +13,7 @@ export default function Nav() {
           <Link href="/">
             <div className="flex items-center">
               <FaCompass className="text-2xl mr-3" />
-              <p className="mr-3">Jobtrackr</p>
+              <p className="mr-3 font-bold">Jobtrackr</p>
             </div>
           </Link>
         </div>
@@ -25,7 +25,7 @@ export default function Nav() {
               </Button>
             </div>
           ) : (
-            <Link href="/signin" className="hover:text-bright-turquoise-400">
+            <Link href="/signin" className="hover:text-bright-turquoise-500">
               Sign In
             </Link>
           )}
