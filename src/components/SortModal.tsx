@@ -10,11 +10,10 @@ import {
   RadioGroup,
   useDisclosure,
 } from "@nextui-org/react";
-import { revalidatePath } from "next/cache";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa";
 
-export default function FilterModal() {
+export default function SortModal() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
