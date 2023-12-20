@@ -29,7 +29,7 @@ export function Row({
       <td
         className={`${
           status === "offer"
-            ? "text-green-300"
+            ? "text-emerald-300"
             : status === "rejected"
             ? "text-red-300"
             : ""
@@ -44,7 +44,7 @@ export function Row({
             <a
               href={postingLink}
               target="_blank"
-              className="hover:text-zinc-400 text-zinc-500"
+              className="hover:text-blue-500"
             >
               <FaLink />
             </a>

@@ -48,7 +48,7 @@ export default function Nav() {
               <Link
                 href={link.href}
                 key={link.href}
-                className="hover:text-red-500"
+                className="hover:text-[#1cafb0]"
               >
                 {link.text}
               </Link>

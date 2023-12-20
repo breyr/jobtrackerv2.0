@@ -24,6 +24,11 @@ export default function RootLayout({
     <ClerkProvider
       appearance={{
         baseTheme: neobrutalism,
+        variables: {
+          colorPrimary: "#1cafb0",
+          colorText: "#06292d",
+          colorInputBackground: "transparent",
+        },
       }}
     >
       <html lang="en" className="dark">

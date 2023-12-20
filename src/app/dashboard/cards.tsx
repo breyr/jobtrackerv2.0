@@ -39,7 +39,7 @@ export function StatCards({
       <h1
         className={`text-4xl font-bold ${
           title === "Offers" && stat > 0
-            ? "text-green-400"
+            ? "text-emerald-400"
             : title === "Rejections" && stat > 0
             ? "text-red-400"
             : ""
