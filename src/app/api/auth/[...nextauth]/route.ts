@@ -3,7 +3,7 @@ import DiscordProvier from "next-auth/providers/discord";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+const authOptions = {
     // configure one or more authentication providers
     providers: [
         GitHubProvider({
