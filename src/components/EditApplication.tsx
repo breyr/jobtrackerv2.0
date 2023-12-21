@@ -64,13 +64,7 @@ export default function EditApplication({
 
   return (
     <>
-      <Button
-        isIconOnly
-        onPress={onOpen}
-        variant="flat"
-        color="primary"
-        size="sm"
-      >
+      <Button isIconOnly onPress={onOpen} variant="flat" color="primary">
         <FaPen />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

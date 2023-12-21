@@ -2,7 +2,9 @@
 
 import EditApplication from "@/components/EditApplication";
 import { deleteApplication } from "@/lib/data";
-import { Button } from "@nextui-org/react";
+import { Button, Spinner } from "@nextui-org/react";
+import { revalidatePath } from "next/cache";
+import { useState } from "react";
 import { FaLink, FaTrash } from "react-icons/fa";
 
 export function Row({
@@ -22,6 +24,8 @@ export function Row({
   notes: string | null | undefined;
   postingLink: string | null | undefined;
 }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <tr key={recordId} id={recordId}>
       <td>{position}</td>
@@ -62,7 +66,7 @@ export function Row({
         })}
       </td>
       <td>
-        <div className="inline-block mr-3">
+        <div className="flex justify-center gap-4">
           <EditApplication
             {...{
               recordId,
@@ -73,16 +77,28 @@ export function Row({
               postingLink,
             }}
           />
-        </div>
-        <div className="inline-block">
-          <form action={deleteApplication}>
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              setIsLoading(true);
+              try {
+                await deleteApplication(formData);
+              } finally {
+                setTimeout(() => {
+                  setIsLoading(false);
+                }, 1000); // waits at most one second after revalidation to set to false, that way it doesn't flash back to trash can
+              }
+            }}
+          >
             <input type="hidden" name="id" value={recordId} />
             <Button
               isIconOnly
               variant="flat"
               color="danger"
               type="submit"
-              size="sm"
+              isDisabled={isLoading}
+              isLoading={isLoading}
             >
               <FaTrash />
             </Button>
