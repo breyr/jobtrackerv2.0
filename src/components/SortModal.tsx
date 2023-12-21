@@ -85,6 +85,7 @@ export default function SortModal() {
                     label="Filter by Status(es)"
                     size="sm"
                     labelPlacement="outside-left"
+                    variant="bordered"
                     onChange={handleSelectChange}
                     selectedKeys={
                       searchParams.get("filterStatus")?.split(",") || []
@@ -98,7 +99,7 @@ export default function SortModal() {
                   </Select>
                 </div>
                 <Divider />
-                <div className="flex gap-2 mb-3 justify-between">
+                <div className="flex gap-2 mb-3">
                   <p className="w-20">Position</p>
                   <RadioGroup
                     orientation="horizontal"
@@ -113,7 +114,7 @@ export default function SortModal() {
                     <Radio value="desc">desc</Radio>
                   </RadioGroup>
                 </div>
-                <div className="flex gap-2 mb-3 justify-between">
+                <div className="flex gap-2 mb-3">
                   <p className="w-20">Company</p>
                   <RadioGroup
                     orientation="horizontal"
@@ -128,7 +129,7 @@ export default function SortModal() {
                     <Radio value="desc">desc</Radio>
                   </RadioGroup>
                 </div>
-                <div className="flex gap-2 mb-3 justify-between">
+                <div className="flex gap-2 mb-3">
                   <p className="w-20">Status</p>
                   <RadioGroup
                     orientation="horizontal"
@@ -143,7 +144,7 @@ export default function SortModal() {
                     <Radio value="desc">desc</Radio>
                   </RadioGroup>
                 </div>
-                <div className="flex gap-2 mb-3 justify-between">
+                <div className="flex gap-2 mb-3">
                   <p className="w-20">Date</p>
                   <RadioGroup
                     orientation="horizontal"
