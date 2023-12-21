@@ -17,6 +17,7 @@ export default async function page({
     company?: string;
     status?: string;
     lastUpdated?: string;
+    filterStatus?: string;
   };
 }) {
   const session = await getServerSession();
@@ -32,6 +33,7 @@ export default async function page({
     status: searchParams?.status || "",
     lastUpdated: searchParams?.lastUpdated || "",
   };
+  const filterStatus = searchParams?.filterStatus?.split(",") ?? [];
 
   return (
     <section className="flex-grow flex flex-col">
@@ -42,7 +44,11 @@ export default async function page({
       {/* Table & Buttons */}
       <ApplicationsContent>
         <Suspense fallback={<RowSkeleton />}>
-          <TableWrapper query={query} sortColumns={sortColumns} />
+          <TableWrapper
+            query={query}
+            sortColumns={sortColumns}
+            filterStatus={filterStatus}
+          />
         </Suspense>
       </ApplicationsContent>
     </section>

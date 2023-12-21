@@ -47,7 +47,7 @@ export async function getCardData() {
 }
 
 // create function to get data for the table
-export async function getTableData(query:string, sortColumns: object) {
+export async function getTableData(query:string, sortColumns: object, filterStatus: string[]) {
     noStore(); // disable caching for this function
     const session = await getServerSession();
     const userId = session?.user?.email;
@@ -58,9 +58,10 @@ export async function getTableData(query:string, sortColumns: object) {
             applications.filter({company: iContains(query)}),
             applications.filter({position: iContains(query)}),
             applications.filter({status: iContains(query)}),
-            applications.filter({notes: iContains(query)})
+            applications.filter({notes: iContains(query)}),
         )
         .filter({userId: userId})
+        .filter({status: {$any: filterStatus}})
     for (let [column, order] of Object.entries(sortColumns)) {
         if (order === '') continue;
         // doing this switch statement to bypass Argument of type 'string' is not assignable to parameter of type 

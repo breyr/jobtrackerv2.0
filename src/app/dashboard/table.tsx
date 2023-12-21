@@ -5,11 +5,13 @@ import { Row } from "./Row";
 export default async function TableWrapper({
   query,
   sortColumns,
+  filterStatus,
 }: {
   query: string;
   sortColumns: object;
+  filterStatus: string[];
 }) {
-  const records = (await getTableData(query, sortColumns)) || [];
+  const records = (await getTableData(query, sortColumns, filterStatus)) || [];
 
   return (
     <>
